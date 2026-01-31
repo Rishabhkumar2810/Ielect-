@@ -14,7 +14,7 @@ connectDB();
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: process.env.CLIENT_ORIGIN || "http://localhost:3000", credentials: true }));
+app.use(cors({ origin: process.env.CLIENT_ORIGIN  }));
 app.use(morgan("dev"));
 
 app.get("/api/health", (req, res) => {
