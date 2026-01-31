@@ -21,19 +21,25 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function (origin, callback) {
+    // allow server-to-server / curl / Postman
     if (!origin) return callback(null, true);
 
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("CORS not allowed"));
+    // allow all vercel preview + production URLs
+    if (
+      origin.endsWith(".vercel.app") ||
+      origin === "http://localhost:3000"
+    ) {
+      return callback(null, true);
     }
+
+    // ❗ DO NOT throw error — just block silently
+    return callback(null, false);
   },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-// 🔥 THIS LINE FIXES PREFLIGHT
+// ✅ REQUIRED for preflight
 app.options("*", cors());
 
 app.use(morgan("dev"));
