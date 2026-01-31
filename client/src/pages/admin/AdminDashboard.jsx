@@ -14,7 +14,7 @@ export default function AdminDashboard() {
   const [assignNominee,setAssignNominee]=useState("");
 
   const load = async () => {
-    const [el,nom] = await Promise.all([api.get("/api/elections"), api.get("/api/nominees")]);
+    const [el,nom] = await Promise.all([api.get("/elections"), api.get("/nominees")]);
     setElections(el.data);
     setNominees(nom.data);
   };
@@ -24,7 +24,7 @@ export default function AdminDashboard() {
   const createElection = async (e) => {
     e.preventDefault();
     try {
-      await api.post("/api/elections", { title, description, startDate, endDate });
+      await api.post("/elections", { title, description, startDate, endDate });
       toast.success("Election created");
       setTitle(""); setDescription(""); setStartDate(""); setEndDate("");
       load();
@@ -35,7 +35,7 @@ export default function AdminDashboard() {
 
   const assign = async () => {
     try {
-      await api.post("/api/nominees/assign", { electionId: assignElection, nomineeId: assignNominee });
+      await api.post("/nominees/assign", { electionId: assignElection, nomineeId: assignNominee });
       toast.success("Nominee assigned");
       setAssignElection(""); setAssignNominee("");
       load();
@@ -46,7 +46,7 @@ export default function AdminDashboard() {
 
   const removeNominee = async (nomineeId, electionId) => {
     try {
-      await api.post("/api/nominees/remove", { nomineeId, electionId });
+      await api.post("/nominees/remove", { nomineeId, electionId });
       toast.success("Nominee removed");
       load();
     } catch (err) {

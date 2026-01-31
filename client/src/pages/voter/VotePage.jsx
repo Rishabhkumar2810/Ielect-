@@ -12,7 +12,7 @@ export default function VotePage() {
   useEffect(()=> {
     (async()=>{
       try {
-        const { data } = await api.get(`/api/elections/${id}`);
+        const { data } = await api.get(`/elections/${id}`);
         setElection(data);
       } catch (err) {
         toast.error(err.response?.data?.message || "Error fetching election");
@@ -24,7 +24,7 @@ export default function VotePage() {
 
   const castVote = async (nomineeId) => {
     try {
-      const { data } = await api.post("/api/vote", { electionId: id, nomineeId });
+      const { data } = await api.post("/vote", { electionId: id, nomineeId });
       toast.success(data.message || "Vote cast successfully!");
     } catch (err) {
       toast.error(err.response?.data?.message || "Voting failed");

@@ -15,7 +15,7 @@ export default function Register() {
     e.preventDefault();
     setLoading(true);
     try {
-      await api.post("/api/users/register", { name, email, password, role });
+      await api.post("/users/register", { name, email, password, role });
       toast.success("Registered! Please sign in.");
       nav("/login");
     } catch (err) {

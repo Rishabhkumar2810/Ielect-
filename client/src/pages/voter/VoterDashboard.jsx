@@ -13,7 +13,7 @@ export default function VoterDashboard() {
   useEffect(()=> {
     (async()=>{
       try {
-        const { data } = await api.get("/api/elections/active");
+        const { data } = await api.get("/elections/active");
         setElections(data);
       } catch (err) {
         toast.error(err.response?.data?.message || "Failed to load elections");

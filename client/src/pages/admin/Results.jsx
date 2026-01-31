@@ -12,7 +12,7 @@ export default function Results() {
   useEffect(()=> {
     (async()=>{
       try {
-        const { data } = await api.get(`/api/vote/results/${id}`);
+        const { data } = await api.get(`/vote/results/${id}`);
         setData(data.map(d => ({ name: d.nominee?.[0]?.name || "Nominee", votes: d.votes || 0 })));
       } catch (err) {
         toast.error(err.response?.data?.message || "Failed to load results");
