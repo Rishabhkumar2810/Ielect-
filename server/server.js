@@ -14,7 +14,28 @@ connectDB();
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: process.env.CLIENT_ORIGIN  }));
+const allowedOrigins = [
+  "https://ielect-2.vercel.app",
+  "https://ielect-z2yc-4esry12o7-rishabhs-projects-e69bd32b.vercel.app"
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS not allowed"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+// 🔥 THIS LINE FIXES PREFLIGHT
+app.options("*", cors());
+
 app.use(morgan("dev"));
 
 app.get("/api/health", (req, res) => {
